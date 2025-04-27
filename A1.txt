@@ -1,0 +1,16 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+df = pd.read_csv("iris.csv")
+print(df.describe(include='all'))
+print(df.shape)  # (150, 5)
+print(df.dtypes)
+# Convert species to category
+df['species'] = df['species'].astype('category')
+# Min-Max Normalization
+numeric_cols = df.select_dtypes(include=[np.number]).columns
+df[numeric_cols] = (df[numeric_cols] - df[numeric_cols].min()) / (df[numeric_cols].max() - df[numeric_cols].min())
+# One-hot encoding of the 'species' column
+df_encoded = pd.get_dummies(df, columns=['species'])
+print(df_encoded.head())
